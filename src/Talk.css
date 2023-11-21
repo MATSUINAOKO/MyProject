@@ -1,0 +1,99 @@
+.button {
+  cursor: pointer;
+  width: 30px;
+  height: auto;
+  margin: 15px;
+  vertical-align: -10px;
+}
+
+.chatbot {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.messages {
+  flex-grow: 1;
+  overflow-y: scroll;
+}
+
+.messages::-webkit-scrollbar {
+  width: 12px;
+}
+
+.messages::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background-color: #00bfff;
+  border-radius: 6px;
+}
+
+.messages li {
+  display: flex;
+  align-items: center;
+}
+
+.messages li img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.messages li span {
+  margin-left: 8px;
+  border-radius: 16px;
+  padding: 8px;
+}
+
+.messages li.user {
+  justify-content: flex-end;
+}
+
+.messages li.user span {
+  background-color: lightgreen;
+}
+
+.messages li.bot span {
+  background-color: white;
+}
+
+form {
+  display: flex;
+}
+
+form input[type="text"] {
+  flex-grow: 1;
+  border-radius: 16px;
+  padding: 8px;
+  margin-right: 8px;
+  border: 1px solid gray;
+  outline: none;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f0fff0;
+}
+form button {
+  background-color: #ff6961;
+  border-radius: 16px;
+  padding: 8px;
+  border: none;
+  outline: none;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.inputelm {
+  width: 500px;
+  margin: 15px 0px 15px 5px;
+}
+.footer {
+  position: fixed;
+  left: 0; /* 画面左端に固定 */
+  bottom: 0; /* 画面下に固定 */
+}
+
+.headter {
+  position: fixed;
+  left: 0; /* 画面左端に固定 */
+  top: 0; /* 画面上に固定 */
+}

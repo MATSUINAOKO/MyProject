@@ -1,0 +1,39 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", メイリオ,
+    Meiryo, "ＭＳ Ｐゴシック", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #e6e6e6;
+}
+.card {
+  padding: 1em;
+  /*余白指定*/
+
+  width: 555px;
+  margin: 0 auto;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px #ccc;
+}
+
+.card-img {
+  border-radius: 50%;
+  max-width: 100%;
+
+  width: 100px;
+  height: 100px;
+}
+
+.cardContainer {
+  padding: 30px 4% 30px;
+  /*余白指定*/
+  width: 500px;
+  margin: 1%;
+  display: flex;
+  gap: 6px 10px; /* 余白 */
+  /* align-items: center; */
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px #ccc;
+}

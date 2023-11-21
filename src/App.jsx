@@ -37,22 +37,39 @@ function App() {
       })
       .catch((error) => console.error(error)),
 
-    // t_historyの取得
+      // t_historyの取得
     fetch("/api/history")
-      .then((response) => {
-        console.log("/historyです");
-        if (!response.ok) {
-          throw new Error('エラーが発生しました');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const newData = [...history, ...data];
-        setHistory(newData);
-        console.log("historyもfetchしました", data);
-      })
-      .catch((error) => console.error(error))
-  ]).catch((error) => console.error(error)); // Promise.all内でのエラーハンドリング
+    .then((response) => {
+      console.log("/historyです");
+      if (!response.ok) {
+        throw new Error('エラーが発生しました');
+      }
+      return response.json();
+    })
+    .then((data) => {
+      const newData = [...messages, ...data];
+      setMessages(newData);
+      console.log("historyもfetchしました", data);
+    })
+    .catch((error) => console.error(error))
+]).catch((error) => console.error(error)); // Promise.all内でのエラーハンドリング
+
+  //   // t_historyの取得
+  //   fetch("/api/history")
+  //     .then((response) => {
+  //       console.log("/historyです");
+  //       if (!response.ok) {
+  //         throw new Error('エラーが発生しました');
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       const newData = [...history, ...data];
+  //       setHistory(newData);
+  //       console.log("historyもfetchしました", data);
+  //     })
+  //     .catch((error) => console.error(error))
+  // ]).catch((error) => console.error(error)); // Promise.all内でのエラーハンドリング
 }
 //マウント時にDBからのデータ取得
   useEffect(() => {

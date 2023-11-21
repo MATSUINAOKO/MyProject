@@ -1,5 +1,5 @@
 import React from 'react'
-import { useEffect } from 'react'
+import { useRef } from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 
@@ -13,12 +13,14 @@ export default function Talk(props) {
   const {setCurrentView,currentView,message,setMessage,
     setSend,input, setInput,messages, setMessages,setHistory,history}=props
 
-  
-  const setSendFunc = async (e) => {
-    const newMessages = [...messages, { talk: input, user_name: 'user' }]
-    await setMessages(newMessages);
-    await setInput('');
+    const inputRef = useRef();
 
+  const setSendFunc = async (e) => {
+    inputRef.current.value = "";
+    const postUserMessage = { talk: input, user_name: 'user' }
+    const newMessages = [...messages, postUserMessage]
+
+    await setMessages(newMessages);
     try {
       const response = await fetch(apiEndpoint, {
         method: 'POST',
@@ -40,6 +42,7 @@ export default function Talk(props) {
       } catch (error) {
         setMessages(messages => [...messages, { talk: 'エラー発生。APIサーバーからの応答なし。', user_name: 'bot' }]);
       }
+      await setInput('');
   }
 
 
@@ -64,7 +67,7 @@ export default function Talk(props) {
          </ul>
      </div>
     <div className='footer'>
-    <input className='inputelm' onChange = {(e) => setInput(e.target.value)} ></input>
+    <input className='inputelm' ref ={inputRef} onChange = {(e) => setInput(e.target.value)} ></input>
     <a className='button' onClick={()=> {setSendFunc()}}>
     <img  src={send} width="30" height="30" alt="送信" ></img>
     </a>

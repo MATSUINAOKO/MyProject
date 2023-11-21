@@ -13,33 +13,7 @@ export default function Talk(props) {
   const {setCurrentView,currentView,message,setMessage,
     setSend,input, setInput,messages, setMessages,setHistory,history}=props
 
- 
-    function fetchHistoryData(){
-    // t_historyの取得
-    fetch("/api/history")
-      .then((response) => {
-        console.log("/historyです");
-        if (!response.ok) {
-          throw new Error('エラーが発生しました');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const newData = [...history, ...data];
-        setHistory(newData);
-        console.log("historyもfetchしました", data);
-      })
-      .catch((error) => console.error(error))
   
-}
-
-// //マウント時にDBからのデータ取得
-// useEffect(() => {
-//   fetchHistoryData()
-// },[])
-
-
-
   const setSendFunc = async (e) => {
     const newMessages = [...messages, { talk: input, user_name: 'user' }]
     await setMessages(newMessages);
@@ -169,4 +143,26 @@ export default function Talk(props) {
 //   }
 
 
+// function fetchHistoryData(){
+  //     // t_historyの取得
+  //     fetch("/api/history")
+  //       .then((response) => {
+  //         console.log("/historyです");
+  //         if (!response.ok) {
+  //           throw new Error('エラーが発生しました');
+  //         }
+  //         return response.json();
+  //       })
+  //       .then((data) => {
+  //         const newData = [...history, ...data];
+  //         setHistory(newData);
+  //         console.log("historyもfetchしました", data);
+  //       })
+  //       .catch((error) => console.error(error))
+    
+  // }
   
+  // // //マウント時にDBからのデータ取得
+  // // useEffect(() => {
+  // //   fetchHistoryData()
+  // // },[]) 

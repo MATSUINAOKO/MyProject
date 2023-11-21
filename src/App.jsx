@@ -49,6 +49,7 @@ function App() {
       .then((data) => {
         const newData = [...history, ...data];
         setHistory(newData);
+        console.log("historyもfetchしました", data);
       })
       .catch((error) => console.error(error))
   ]).catch((error) => console.error(error)); // Promise.all内でのエラーハンドリング
@@ -57,14 +58,7 @@ function App() {
   useEffect(() => {
     fetchData()
     console.log("マウントが切り替わりました")
-  },[])
-
-  // //Talkデータが切り替わった時
-  // useEffect(() => {
-  //   console.log("切り替わりました")
-  // },[currentView])
-
-  
+  },[])  
 
   return (
     <>

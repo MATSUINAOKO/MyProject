@@ -56,17 +56,12 @@ app.get("/api/history", (req, res) => {
 
 //post処理
 app.post("/api", async (req, res) => {
-  const { text, sender } = req.body;
-  res.json(req.body);
-  // const user_id = await database("m_user").where("user_name", sender).first();
-  // if (!user_id) {
-  //   return res.status(400).json({ error: "userが見つかりません" });
-  // }
-  // const userID = user_id.id;
-  // const result = await database("t_history").insert({
-  //   user_id: userID,
-  //   talk: text,
-  // });
-  // res.status(200).json({ id: result[0], user_id: userID, text: text });
+  const { talk, user_name, user_id } = req.body;
+  console.log("Received request body:", req.body);
+  const result = await database("t_history").insert({
+    user_id: user_id,
+    talk: talk,
+  });
+  res.status(200).json({ id: result[0], user_id: user_id, talk: talk });
 });
 module.exports = app;

@@ -16,7 +16,7 @@ export default function Talk(props) {
     const inputRef = useRef();
     function postFunc(data){
       fetch("/api",{
-        method:POST,
+        method:"POST",
         body: JSON.stringify(data),
       })
     .then((response) => {

@@ -13,58 +13,82 @@ function App() {
   const [send,setSend] = useState();
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
-  const [users,setUsers] = useState([{id:0 , user_name:"sample"}]);
-
+  const [users,setUsers] = useState([{user_name: "bot", ikon: "/bot.jpg"}]);
+  const [history,setHistory] = useState([{user_id: 1, talk: "sampleです", up_photo: "/user_sample.jpg"}]);
+  // const [mount,setMount] = useState("first");
 
   function fetchData(){
-    fetch("/api")
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('エラーが発生しました');
-      }
-      // return response;
-      return response.json();
-    })
-    .then(data => console.log(data))
-    .catch(error => console.error(error));
+      // Promise.allで並列に複数の非同期処理を実行
+  Promise.all([
+    // m_userの取得
+    fetch("/api/user")
+      .then((response) => {
+        console.log("/userです");
+        if (!response.ok) {
+          throw new Error('エラーが発生しました');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("fetchしました", data);
+        const newData = [...users, ...data];
+        setUsers(newData);
+        console.log(newData);
+      })
+      .catch((error) => console.error(error)),
 
-    // await fetch("/api/user")
-    // .then((response) => response.json())
-    // .then((data) => console.log("fetchしました",data))
-    // .then((data) => setUsers(data))
-  }
-
+    // t_historyの取得
+    fetch("/api/history")
+      .then((response) => {
+        console.log("/historyです");
+        if (!response.ok) {
+          throw new Error('エラーが発生しました');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const newData = [...history, ...data];
+        setHistory(newData);
+      })
+      .catch((error) => console.error(error))
+  ]).catch((error) => console.error(error)); // Promise.all内でのエラーハンドリング
+}
+//マウント時にDBからのデータ取得
   useEffect(() => {
     fetchData()
+    console.log("マウントが切り替わりました")
   },[])
 
-  useEffect(() => {
-  },[currentView])
+  // //Talkデータが切り替わった時
+  // useEffect(() => {
+  //   console.log("切り替わりました")
+  // },[currentView])
 
   
 
   return (
     <>
       <div>
-      <ul>
-          {users.map((elem) => <li key={elem.id}>{elem.user_name}</li>)}
-      </ul>
         {currentView === 'Top' ? (
         <Top 
         setCurrentView={setCurrentView} 
         currentView={currentView} 
+        setUsers ={setUsers} 
+        users={users} 
         />
         ):(
         <Talk 
         setCurrentView={setCurrentView} 
         currentView={currentView} 
         message={message} 
-        setMessage={setMessage}//いらないかも
-        setSend={setSend}//いらないかも
+        setMessage={setMessage} //いらないかも
+        setSend={setSend} //いらないかも
         input={input} 
         setInput={setInput} 
         messages={messages} 
         setMessages={setMessages} 
+        setHistory ={setHistory} //いらないかも
+        history ={history} //いらないかも
         />
         )}
       </div>

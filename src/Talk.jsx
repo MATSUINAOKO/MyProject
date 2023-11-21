@@ -1,4 +1,5 @@
 import React from 'react'
+import { useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 
@@ -8,15 +9,39 @@ import './Talk.css'
 const apiKey = import.meta.env.VITE_API_KEY;
 const apiEndpoint = import.meta.env.VITE_API_ENDPOINT;
 
-
 export default function Talk(props) {
   const {setCurrentView,currentView,message,setMessage,
-    setSend,input, setInput,messages, setMessages}=props
+    setSend,input, setInput,messages, setMessages,setHistory,history}=props
+
+ 
+    function fetchHistoryData(){
+    // t_historyの取得
+    fetch("/api/history")
+      .then((response) => {
+        console.log("/historyです");
+        if (!response.ok) {
+          throw new Error('エラーが発生しました');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        const newData = [...history, ...data];
+        setHistory(newData);
+        console.log("historyもfetchしました", data);
+      })
+      .catch((error) => console.error(error))
+  
+}
+
+// //マウント時にDBからのデータ取得
+// useEffect(() => {
+//   fetchHistoryData()
+// },[])
+
 
 
   const setSendFunc = async (e) => {
-    // e.preventDefault();
-    const newMessages = [...messages, { text: input, sender: 'user' }]
+    const newMessages = [...messages, { talk: input, user_name: 'user' }]
     await setMessages(newMessages);
     await setInput('');
 
@@ -34,31 +59,20 @@ export default function Talk(props) {
       const data = await response.json();
      
       if (data.status === 0) {
-          setMessages(messages => [...messages, { text: data.results[0].reply, sender: 'bot' }]);
+          setMessages(messages => [...messages, { talk: data.results[0].reply, user_name: 'bot' }]);
         } else {
-          setMessages(messages => [...messages, { text: 'エラー発生。確認してください。', sender: 'bot' }]);
+          setMessages(messages => [...messages, { talk: 'エラー発生。確認してください。', user_name: 'bot' }]);
         }
       } catch (error) {
-        setMessages(messages => [...messages, { text: 'エラー発生。APIサーバーからの応答なし。', sender: 'bot' }]);
+        setMessages(messages => [...messages, { talk: 'エラー発生。APIサーバーからの応答なし。', user_name: 'bot' }]);
       }
-    //     const botMessages =  [...messages, { text: data.results[0].reply, sender: 'bot' }]
-    //     setMessages(botMessages);
-    
-    //   } else {
-    //     const errorMessages = [...messages, {  text: 'エラー発生。確認してください。', sender: 'bot' }]
-    //     setMessages(errorMessages);
-    //   }
-    // } catch (error) {
-    //   const errorAPI =  [...messages, {  text: 'エラー発生。APIサーバーからの応答なし。', sender: 'bot' }]
-    //   setMessages(messages => [...messages, { text: 'エラー発生。APIサーバーからの応答なし。', sender: 'bot' }]);
-    // }
   }
 
 
     return (
     <>
     <div className='headter'>
-    <a className='button' onClick={() =>{setCurrentView("Top")}}>
+    <a className='button' onClick={() =>{setCurrentView('Top')}}>
     <img src={back} width="30" height="30" alt="戻る" ></img>
     </a>
     </div>
@@ -67,9 +81,9 @@ export default function Talk(props) {
     <div className="chatbot">
       <ul className="messages">
         {messages.map((message, index) => (
-          <li key={index} className={message.sender}>
-            <img src={`/${message.sender}.jpg`} alt={`/${message.sender}Icon`} />
-            <span>{message.text}</span>
+          <li key={index} className={message.user_name}>
+            <img src={`/${message.user_name}.jpg`} alt={`/${message.user_name}Icon`} />
+            <span>{message.talk}</span>
           </li>
      
         ))}
@@ -85,7 +99,74 @@ export default function Talk(props) {
     );
   }
 
-  // Talk.defaultProps = {
-  //   messages: [],
-  // };
+
+
+
+
+
+// export default function Talk(props) {
+//   const {setCurrentView,currentView,message,setMessage,
+//     setSend,input, setInput,messages, setMessages,setHistory,history}=props
+
+
+//   const setSendFunc = async (e) => {
+//     const newMessages = [...messages, { text: input, sender: 'user' }]
+//     await setMessages(newMessages);
+//     await setInput('');
+
+//     try {
+//       const response = await fetch(apiEndpoint, {
+//         method: 'POST',
+//         headers: {
+//           'Content-Type': 'application/x-www-form-urlencoded'
+//         },
+//         body: new URLSearchParams({
+//           apikey: apiKey,
+//           query: input
+//         })
+//       });
+//       const data = await response.json();
+     
+//       if (data.status === 0) {
+//           setMessages(messages => [...messages, { text: data.results[0].reply, sender: 'bot' }]);
+//         } else {
+//           setMessages(messages => [...messages, { text: 'エラー発生。確認してください。', sender: 'bot' }]);
+//         }
+//       } catch (error) {
+//         setMessages(messages => [...messages, { text: 'エラー発生。APIサーバーからの応答なし。', sender: 'bot' }]);
+//       }
+//   }
+
+
+//     return (
+//     <>
+//     <div className='headter'>
+//     <a className='button' onClick={() =>{setCurrentView("Top")}}>
+//     <img src={back} width="30" height="30" alt="戻る" ></img>
+//     </a>
+//     </div>
+//     <p>{message}</p>
+//     <br></br>
+//     <div className="chatbot">
+//       <ul className="messages">
+//         {messages.map((message, index) => (
+//           <li key={index} className={message.sender}>
+//             <img src={`/${message.sender}.jpg`} alt={`/${message.sender}Icon`} />
+//             <span>{message.text}</span>
+//           </li>
+     
+//         ))}
+//          </ul>
+//      </div>
+//     <div className='footer'>
+//     <input className='inputelm' onChange = {(e) => setInput(e.target.value)} ></input>
+//     <a className='button' onClick={()=> {setSendFunc()}}>
+//     <img  src={send} width="30" height="30" alt="送信" ></img>
+//     </a>
+//     </div>
+//     </>
+//     );
+//   }
+
+
   

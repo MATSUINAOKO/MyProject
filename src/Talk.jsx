@@ -14,10 +14,19 @@ export default function Talk(props) {
     setSend,input, setInput,messages, setMessages,setHistory,history}=props
 
     const inputRef = useRef();
+    function postFunc(data){
+      fetch("/api",{
+        method:POST,
+        body: JSON.stringify(data),
+      })
+    .then((response) => {
+      console.log("POSTresponseです",response);
+    })
+    .catch((error) => console.error(error))}
 
   const setSendFunc = async (e) => {
     inputRef.current.value = "";
-    const postUserMessage = { talk: input, user_name: 'user' }
+    const postUserMessage = { talk: input, user_name: 'user' ,user_id: 1}
     const newMessages = [...messages, postUserMessage]
 
     await setMessages(newMessages);
@@ -35,7 +44,9 @@ export default function Talk(props) {
       const data = await response.json();
      
       if (data.status === 0) {
+        // const postBotMessage ={ talk: data.results[0].reply, user_name: 'bot', user_id: 2}
           setMessages(messages => [...messages, { talk: data.results[0].reply, user_name: 'bot' }]);
+          // await postFunc(postBotMessage)
         } else {
           setMessages(messages => [...messages, { talk: 'エラー発生。確認してください。', user_name: 'bot' }]);
         }
@@ -43,6 +54,7 @@ export default function Talk(props) {
         setMessages(messages => [...messages, { talk: 'エラー発生。APIサーバーからの応答なし。', user_name: 'bot' }]);
       }
       await setInput('');
+      await postFunc(postUserMessage)
   }
 
 

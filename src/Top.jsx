@@ -7,8 +7,7 @@ import './Top.css'
 
 export default function Top(props) {
     const {setCurrentView,currentView,setUsers,users}=props
-    const userlist =users.filter((elem) =>elem.user_name !=="user");
-    setUsers(userlist);
+
     return (
     <>
     <body>

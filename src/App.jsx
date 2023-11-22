@@ -32,7 +32,8 @@ function App() {
       .then((data) => {
         console.log("fetchしました", data);
         const newData = [...users, ...data];
-        setUsers(newData);
+        const userlist =newData.filter((elem) =>elem.user_name !=="user");
+        setUsers(userlist);
         console.log(newData);
       })
       .catch((error) => console.error(error)),

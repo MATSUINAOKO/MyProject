@@ -1,8 +1,5 @@
 import React from 'react'
 import { useRef } from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-
 import back from '../public/kkrn_icon_modoru_16.png'
 import send from '../public/e-mail-send_icon_1153-300x300.png'
 import './Talk.css'
@@ -10,8 +7,8 @@ const apiKey = import.meta.env.VITE_API_KEY;
 const apiEndpoint = import.meta.env.VITE_API_ENDPOINT;
 
 export default function Talk(props) {
-  const {setCurrentView,currentView,message,setMessage,
-    setSend,input, setInput,messages, setMessages,setHistory,history}=props
+  const {setCurrentView,message,
+    input, setInput,messages, setMessages}=props
 
     const inputRef = useRef();
     function postFunc(data){

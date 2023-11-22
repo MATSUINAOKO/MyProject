@@ -1,12 +1,10 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
 import './index.css'
 import './Top.css'
 
 
 export default function Top(props) {
-    const {setCurrentView,currentView,setUsers,users}=props
+    const {setCurrentView,users}=props
 
     return (
     <>

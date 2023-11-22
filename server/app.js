@@ -7,12 +7,6 @@ const database = require("./knex");
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, "..", "dist")));
 
-//確認用
-app.get("/api", (req, res) => {
-  res.json("Expressつながりました。サーバーからデータ取得");
-  // res.json("Expressつながりました");
-});
-
 //m_userの全データを返す
 app.get("/api/user", (req, res) => {
   database("m_user")
@@ -43,16 +37,6 @@ app.get("/api/history", (req, res) => {
       res.status(500).json({ error: "Internal Server Error" });
     });
 });
-
-// app.get("/api/history", (req, res) => {
-//   database("t_history")
-//     .select("t_history.*", "m_user.user_name", "m_user.ikon")
-//     .innerJoin("m_user", "t_history.user_id", "m_user.id")
-//     .then((result) => {
-//       res.header("Content-Type", "application/json");
-//       res.send(result);
-//     });
-// });
 
 //post処理
 app.post("/api", async (req, res) => {

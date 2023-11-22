@@ -45,7 +45,7 @@ export default function Talk(props) {
      
       if (data.status === 0) {
         const tolkWord = data.results[0].reply + "だわん"
-        const postBotMessage ={ talk: tolkWord, user_name: 'bot', user_id: 2}
+        const postBotMessage ={ talk: tolkWord, user_name: 'potato', user_id: 3}
           setMessages(messages => [...messages, { talk: tolkWord, user_name: 'bot' }]);
           await postFunc(postBotMessage)
         } else {

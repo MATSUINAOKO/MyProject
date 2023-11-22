@@ -11,10 +11,11 @@ export default function Talk(props) {
     input, setInput,messages, setMessages}=props
 
     const inputRef = useRef();
-    function postFunc(data){
-      fetch("/api",{
+    async function postFunc(data){
+      console.log("dataの中身",data)
+      await fetch("/api/"+data,{
         method:"POST",
-        body: JSON.stringify(data),
+        // body: data,
       })
     .then((response) => {
       console.log("POSTresponseです",response);

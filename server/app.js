@@ -39,21 +39,23 @@ app.get("/api/history", (req, res) => {
 });
 
 //post処理
-app.post("/api/:sendingData", async (req, res) => {
-  const sendingData = req.params.sendingData;
-  console.log("sendingData-------" + sendingData);
-  // const { talk, user_name, user_id } = sendingData;
-  console.log("Received request body:", req.body);
-  const result = await database("t_history").insert({
-    user_id: sendingData.user_id,
-    talk: sendingData.talk,
-  });
-  res
-    .status(200)
-    .json({
-      id: result[0],
-      user_id: sendingData.user_id,
-      talk: sendingData.talk,
+app.post(
+  "/api/:sendingTalk/:sendingUserName/:sendingUserId",
+  async (req, res) => {
+    const sendingTalk = req.params.sendingTalk;
+    const sendingUserName = req.params.sendingUserName;
+    const sendingUserId = req.params.sendingUserId;
+
+    // console.log("sendingData-------" + sendingData);
+    // const { talk, user_name, user_id } = sendingData;
+    const result = await database("t_history").insert({
+      user_id: sendingUserId,
+      talk: sendingTalk,
     });
-});
+    res.status(200).json({
+      user_id: sendingUserId,
+      talk: sendingTalk,
+    });
+  }
+);
 module.exports = app;

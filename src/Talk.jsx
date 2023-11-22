@@ -13,7 +13,10 @@ export default function Talk(props) {
     const inputRef = useRef();
     async function postFunc(data){
       console.log("dataの中身",data)
-      await fetch("/api/"+data,{
+      const sendingTalk=data.talk;
+      const sendingUserName=data.user_name;
+      const sendingUserId=data.user_id;
+      await fetch("/api/"+sendingTalk+"/"+sendingUserName+"/"+sendingUserId,{
         method:"POST",
         // body: data,
       })

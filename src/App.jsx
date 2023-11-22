@@ -15,7 +15,7 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [users,setUsers] = useState([{user_name: "bot", ikon: "/bot.jpg"}]);
   const [history,setHistory] = useState([{user_id: 1, talk: "sampleです", up_photo: "/user_sample.jpg"}]);
-  // const [mount,setMount] = useState("first");
+  const [currentUser,setCurrentUser] = useState();
 
   function fetchData(){
       // Promise.allで並列に複数の非同期処理を実行
@@ -69,6 +69,8 @@ function App() {
         currentView={currentView} 
         setUsers ={setUsers} 
         users={users} 
+        currentUser = {currentUser} 
+        setCurrentUser = {setCurrentUser}
         />
         ):(
         <Talk 
@@ -83,6 +85,7 @@ function App() {
         setMessages={setMessages} 
         setHistory ={setHistory} //いらないかも
         history ={history} //いらないかも
+        currentUser = {currentUser} 
         />
         )}
       </div>

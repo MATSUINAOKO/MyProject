@@ -13,7 +13,7 @@ function App() {
   const [send,setSend] = useState();
   const [input, setInput] = useState('');
   const [messages, setMessages] = useState([]);
-  const [users,setUsers] = useState([{user_name: "bot", ikon: "/bot.jpg"}]);
+  const [users,setUsers] = useState([{user_name: "user", ikon: "/user.jpg"}]);
   const [history,setHistory] = useState([{user_id: 1, talk: "sampleです", up_photo: "/user_sample.jpg"}]);
   const [currentUser,setCurrentUser] = useState();
 

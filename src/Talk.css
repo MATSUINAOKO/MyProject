@@ -8,13 +8,16 @@
 
 .chatbot {
   display: flex;
-  flex-direction: column;
+  flex-direction: auto;
   height: 100%;
+  width: 450px;
+  margin: 0px 10px 15px 5px;
 }
 
 .messages {
   flex-grow: 1;
   overflow-y: scroll;
+  font-size: small;
 }
 
 .messages::-webkit-scrollbar {
@@ -32,7 +35,8 @@
 
 .messages li {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
+  padding: 1%;
 }
 
 .messages li img {
@@ -74,16 +78,12 @@ form input[type="text"] {
   background-color: #f0fff0;
 }
 form button {
-  background-color: #ff6961;
   border-radius: 16px;
   padding: 8px;
-  border: none;
-  outline: none;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 .inputelm {
-  width: 500px;
+  width: 450px;
   margin: 15px 0px 15px 5px;
 }
 .footer {

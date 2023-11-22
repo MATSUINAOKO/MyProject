@@ -45,8 +45,8 @@ export default function Talk(props) {
      
       if (data.status === 0) {
         const tolkWord = data.results[0].reply + "だわん"
-        const postBotMessage ={ talk: tolkWord, user_name: 'potato', user_id: 3}
-          setMessages(messages => [...messages, { talk: tolkWord, user_name: 'bot' }]);
+        const postBotMessage ={ talk: tolkWord, user_name: 'potato', user_id: 6}
+          setMessages(messages => [...messages, { talk: tolkWord, user_name: 'potato' }]);
           await postFunc(postBotMessage)
         } else {
           setMessages(messages => [...messages, { talk: 'エラー発生。確認してください。', user_name: 'bot' }]);

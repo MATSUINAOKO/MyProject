@@ -27,8 +27,8 @@ app.get("/api/history", (req, res) => {
       "m_user.ikon"
     )
     .innerJoin("m_user", "t_history.user_id", "m_user.id")
-    // .orderBy("t_history.updated_at", "desc")
-    // .limit(10)
+    .orderBy("t_history.updated_at", "desc")
+    .limit(4)
     .then((result) => {
       res.header("Content-Type", "application/json");
       res.send(result);
@@ -39,23 +39,35 @@ app.get("/api/history", (req, res) => {
 });
 
 //post処理
-app.post(
-  "/api/:sendingTalk/:sendingUserName/:sendingUserId",
-  async (req, res) => {
-    const sendingTalk = req.params.sendingTalk;
-    const sendingUserName = req.params.sendingUserName;
-    const sendingUserId = req.params.sendingUserId;
+app.post("/api", async (req, res) => {
+  //リクエストデータを変数へ代入
+  const { talk, user_name, user_id } = req.body;
+  //knexからchatDBへinsert
+  await database("t_history").insert({
+    user_id: user_id,
+    talk: talk,
+  });
 
-    // console.log("sendingData-------" + sendingData);
-    // const { talk, user_name, user_id } = sendingData;
-    const result = await database("t_history").insert({
-      user_id: sendingUserId,
-      talk: sendingTalk,
-    });
-    res.status(200).json({
-      user_id: sendingUserId,
-      talk: sendingTalk,
-    });
-  }
-);
+  res.status(200);
+});
+
+// app.post(
+//   "/api/:sendingTalk/:sendingUserName/:sendingUserId",
+//   async (req, res) => {
+//     const sendingTalk = req.params.sendingTalk;
+//     const sendingUserName = req.params.sendingUserName;
+//     const sendingUserId = req.params.sendingUserId;
+
+//     console.log("sendingData-------" + sendingTalk);
+//     // const { talk, user_name, user_id } = sendingData;
+//     const result = await database("t_history").insert({
+//       user_id: sendingUserId,
+//       talk: sendingTalk,
+//     });
+//     res.status(200).json({
+//       user_id: sendingUserId,
+//       talk: sendingTalk,
+//     });
+//   }
+// );
 module.exports = app;

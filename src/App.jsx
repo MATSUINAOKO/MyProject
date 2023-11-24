@@ -40,6 +40,8 @@ function App() {
     })
     .then((data) => {
       const newData = [...messages, ...data];
+      //Limitで持ってきたhistorryデータを昇順に並び替え
+      newData.sort((a,b) => a.id -b.id)
       setMessages(newData);
     })
     .catch((error) => console.error(error))

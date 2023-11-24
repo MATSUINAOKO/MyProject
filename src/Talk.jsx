@@ -11,25 +11,49 @@ export default function Talk(props) {
     input, setInput,messages, setMessages}=props
 
     const inputRef = useRef();
-    async function postFunc(data){
-      console.log("dataの中身",data)
-      const sendingTalk=data.talk;
-      const sendingUserName=data.user_name;
-      const sendingUserId=data.user_id;
-      await fetch("/api/"+sendingTalk+"/"+sendingUserName+"/"+sendingUserId,{
-        method:"POST",
-        // body: data,
-      })
-    .then((response) => {
+
+async function postFunc(data){
+//クエリパラメーターで送るために、url作成
+const queryParams = new URLSearchParams({
+  talk : data.talk,
+  user_name : data.user_name,
+  user_id : data.user_id
+})
+  
+  const response = await fetch(`/api?${queryParams}`,
+  {method : "POST",
+  headers: {
+    'Content-Type': 'application/json', // ヘッダーにContent-Typeを指定（ないとエラー）
+  },
+  body:JSON.stringify(data)}
+  )
+  .then((response) => {
       console.log("POSTresponseです",response);
     })
-    .catch((error) => console.error(error))}
+  .catch((error) => console.error(error))
+
+}
+
+    // async function postFunc(data){
+    //   console.log("dataの中身",data)
+    //   const sendingTalk=data.talk;
+    //   const sendingUserName=data.user_name;
+    //   const sendingUserId=data.user_id;
+    //   await fetch("/api/"+sendingTalk+"/"+sendingUserName+"/"+sendingUserId,{
+    //     method:"POST",
+    //     // body: data,
+    //   })
+    // .then((response) => {
+    //   console.log("POSTresponseです",response);
+    // })
+    // .catch((error) => console.error(error))}
 
   const setSendFunc = async (e) => {
     inputRef.current.value = "";
     const postUserMessage = { talk: input, user_name: 'user' ,user_id: 1}
     const newMessages = [...messages, postUserMessage]
-
+    await postFunc(postUserMessage)
+    
     await setMessages(newMessages);
     try {
       const response = await fetch(apiEndpoint, {
@@ -56,7 +80,7 @@ export default function Talk(props) {
         setMessages(messages => [...messages, { talk: 'エラー発生。APIサーバーからの応答なし。', user_name: 'bot' }]);
       }
       await setInput('');
-      await postFunc(postUserMessage)
+      
   }
 
 

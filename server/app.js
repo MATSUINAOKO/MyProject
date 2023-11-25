@@ -43,12 +43,21 @@ app.post("/api", async (req, res) => {
   //リクエストデータを変数へ代入
   const { talk, user_name, user_id } = req.body;
   //knexからchatDBへinsert
-  await database("t_history").insert({
+  //returningメソッドを利用して、t_historyのidを返す
+  const [newRecord] = await database("t_history").returning(["id"]).insert({
     user_id: user_id,
     talk: talk,
   });
+  console.log("newRecord.id :", newRecord.id);
+  res.status(200).json({ user_id: user_id, talk: talk, id: newRecord.id });
+});
 
-  res.status(200);
+//delete処理
+app.delete("/api/:delId", async (req, res) => {
+  const delId = req.params.delId;
+  console.log("delId :", delId);
+  await database("t_history").where("id", delId).del();
+  res.status(200).json({ delId: delId });
 });
 
 // app.post(

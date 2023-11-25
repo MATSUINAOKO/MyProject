@@ -11,6 +11,7 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [users,setUsers] = useState([{user_name: "user", ikon: "/user.jpg"}]);
   const [currentUser,setCurrentUser] = useState();
+  const [clickedIndex,setClickedIndex] = useState(100); //初期値は大きいindex番号
 
   function fetchData(){
       // Promise.allで並列に複数の非同期処理を実行
@@ -71,6 +72,8 @@ function App() {
         messages={messages} 
         setMessages={setMessages} 
         currentUser = {currentUser} 
+        clickedIndex = {clickedIndex} 
+        setClickedIndex = {setClickedIndex} 
         />
         )}
       </div>

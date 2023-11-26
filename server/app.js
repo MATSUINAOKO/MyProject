@@ -27,7 +27,7 @@ app.get("/api/history", (req, res) => {
       "m_user.ikon"
     )
     .innerJoin("m_user", "t_history.user_id", "m_user.id")
-    .orderBy("t_history.updated_at", "desc")
+    .orderBy("t_history.id", "desc")
     .limit(4)
     .then((result) => {
       res.header("Content-Type", "application/json");

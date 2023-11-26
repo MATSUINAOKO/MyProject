@@ -17,7 +17,7 @@ export default function Talk(props) {
     //削除、編集の要素を非表示に戻すため
     const contentEl = useRef();
 
-//kenxへPOST
+//kenxへPOST(クエリパラメーター)
 async function postFunc(data){
 //クエリパラメーターで送るために、url作成
 const queryParams = new URLSearchParams({
@@ -96,16 +96,14 @@ const queryParams = new URLSearchParams({
     setClickedIndex(index);
   }
 
-//削除
+//削除(パスパラメータ)
 async function deleteFunc(index){
-  console.log("messages[index] :",messages[index].id)
   const delId = messages[index].id
   const response = await fetch("/api/"+delId,{
     method:"DELETE"
   })
   try{
     const resData = await response.json();
-    await console.log("messageです108",resData);
     const delMessages = await [...messages]
     const result = await delMessages.filter((elem) => elem.id !== delId);
     await setMessages(result);
@@ -113,6 +111,37 @@ async function deleteFunc(index){
     await setClickedIndex(100);
 
   }catch(error) {
+    console.log(error)
+  }
+}
+
+//修正(パスパラメータ)
+async function patchFunc(index){
+  console.log("index,input 120",index,input,messages[index].id)
+  try{
+  const response = await fetch(`/api/${messages[index].id}`,
+  {
+    method:"PATCH",
+    headers: {
+      'Content-Type': 'application/json', // ヘッダーにContent-Typeを指定（ないとエラー）
+    },
+    body:JSON.stringify({
+      talk:input
+    })
+  })
+ 
+    const resData = await response.json()
+    await console.log("responseです141",resData)
+    //stateを更新
+    const patchMessages = await [...messages]
+    patchMessages[index].talk = await input
+    await setMessages(patchMessages)
+    //非表示に戻す
+    await setClickedIndex(100);
+    //inputも元に戻す
+    await setInput("");
+  }
+  catch(error){
     console.log(error)
   }
 }
@@ -141,8 +170,8 @@ async function deleteFunc(index){
             >
             <button onClick={() => deleteFunc(index)}>削除</button>
             <br></br>
-            <input value = {messages[index].talk} ></input>
-            <button onClick={() => "onclickFunc(index)"}>完了</button>
+            <input placeholder = "修正はここで" onChange = {(e) => setInput(e.target.value)} ></input>
+            <button onClick={() => patchFunc(index)}>完了</button>
             </article>
           </li>
      

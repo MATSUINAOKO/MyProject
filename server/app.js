@@ -38,7 +38,7 @@ app.get("/api/history", (req, res) => {
     });
 });
 
-//post処理
+//post処理(クエリパラメータ)
 app.post("/api", async (req, res) => {
   //リクエストデータを変数へ代入
   const { talk, user_name, user_id } = req.body;
@@ -52,12 +52,25 @@ app.post("/api", async (req, res) => {
   res.status(200).json({ user_id: user_id, talk: talk, id: newRecord.id });
 });
 
-//delete処理
+//delete処理(パスパラメータ)
 app.delete("/api/:delId", async (req, res) => {
   const delId = req.params.delId;
   console.log("delId :", delId);
   await database("t_history").where("id", delId).del();
   res.status(200).json({ delId: delId });
+});
+
+//patch処理(パスパラメータ)
+app.patch("/api/:id", async (req, res) => {
+  const { talk } = req.body;
+  const id = req.params.id;
+  const timestamp = new Date();
+  console.log(id, talk);
+  await database("t_history").where("id", id).update({
+    talk: talk,
+    updated_at: timestamp,
+  });
+  res.status(200).json({ id: id });
 });
 
 // app.post(
